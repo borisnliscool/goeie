@@ -10,8 +10,6 @@ use tower_http::cors::CorsLayer;
 use tower_http::trace::TraceLayer;
 
 async fn handle_request(headers: HeaderMap) -> Response {
-    tracing::info!("Headers: {:#?}", headers);
-
     let host = headers.get("host").and_then(|h| h.to_str().ok());
     if host.is_none() {
         return Response::builder()
@@ -29,8 +27,7 @@ async fn handle_request(headers: HeaderMap) -> Response {
     }
 
     let config = config.unwrap();
-    println!("config: {:?}", config);
-
+    tracing::debug!("Goeie configuration: {:?}", config);
     Redirect::temporary(&config.redirect_target_url).into_response()
 }
 
