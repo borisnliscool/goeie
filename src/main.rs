@@ -1,4 +1,4 @@
-mod dns;
+mod config;
 mod models;
 
 use axum::http::HeaderMap;
@@ -18,17 +18,16 @@ async fn handle_request(headers: HeaderMap) -> Response {
             .unwrap();
     }
 
-    let config = dns::get_redirect_config(host.unwrap()).await;
+    let config = config::get_host_config(host.unwrap().to_string());
     if config.is_err() {
         return Response::builder()
             .status(400)
-            .body("No goeie configuration found".into())
+            .body("No configuration found".into())
             .unwrap();
     }
 
     let config = config.unwrap();
-    tracing::debug!("Goeie configuration: {:?}", config);
-    Redirect::temporary(&config.redirect_target_url).into_response()
+    Redirect::temporary(&config.target).into_response()
 }
 
 #[tokio::main]

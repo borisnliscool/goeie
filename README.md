@@ -11,4 +11,5 @@ goeie-redirect-to=https://boris.foo/
 
 #### TODO:
 
-- caching redirect configuration for hosts
+- caching redirect configuration for hosts to avoid excessive disk I/O
+- automatic ssl certs for new sites
