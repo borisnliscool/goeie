@@ -1,4 +1,4 @@
-use crate::models::RedirectConfiguration;
+use crate::models::{RedirectConfiguration};
 use std::collections::HashMap;
 use std::fs;
 
@@ -11,8 +11,8 @@ pub fn get_host_config(host: String) -> Result<RedirectConfiguration, String> {
     let config: HashMap<String, RedirectConfiguration> =
         toml::from_str(&config).map_err(|e| e.to_string())?;
 
-    match config.into_iter().find(|(id, _)| id.eq(&host)) {
-        Some((_, value)) => Ok(value),
+    match config.into_values().find(|value| value.hosts.contains(&host)) {
+        Some(value) => Ok(value),
         None => Err("host not found".to_string()),
     }
 }

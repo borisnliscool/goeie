@@ -1,2 +1,4 @@
-["www.boris.foo"]
+[website]
+hosts = ["www.boris.foo"]
 target = "https://boris.foo"
+redirect_type = "Temporary"

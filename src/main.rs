@@ -8,6 +8,7 @@ use axum::Router;
 use tokio::net::TcpListener;
 use tower_http::cors::CorsLayer;
 use tower_http::trace::TraceLayer;
+use crate::models::RedirectType;
 
 async fn handle_request(headers: HeaderMap) -> Response {
     let host = headers.get("host").and_then(|h| h.to_str().ok());
@@ -27,7 +28,10 @@ async fn handle_request(headers: HeaderMap) -> Response {
     }
 
     let config = config.unwrap();
-    Redirect::temporary(&config.target).into_response()
+    match config.redirect_type.unwrap_or(RedirectType::Temporary) {
+        RedirectType::Temporary => Redirect::temporary(&config.target).into_response(),
+        RedirectType::Permanent => Redirect::permanent(&config.target).into_response(),
+    }
 }
 
 #[tokio::main]
