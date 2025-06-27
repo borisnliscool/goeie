@@ -1,6 +1,7 @@
 mod config;
 mod models;
 
+use crate::models::RedirectType;
 use axum::http::HeaderMap;
 use axum::response::{IntoResponse, Redirect, Response};
 use axum::routing::get;
@@ -8,7 +9,6 @@ use axum::Router;
 use tokio::net::TcpListener;
 use tower_http::cors::CorsLayer;
 use tower_http::trace::TraceLayer;
-use crate::models::RedirectType;
 
 async fn handle_request(headers: HeaderMap) -> Response {
     let host = headers.get("host").and_then(|h| h.to_str().ok());
@@ -28,6 +28,8 @@ async fn handle_request(headers: HeaderMap) -> Response {
     }
 
     let config = config.unwrap();
+    tracing::info!("Redirecting {} to {}", host.unwrap(), config.target);
+
     match config.redirect_type.unwrap_or(RedirectType::Temporary) {
         RedirectType::Temporary => Redirect::temporary(&config.target).into_response(),
         RedirectType::Permanent => Redirect::permanent(&config.target).into_response(),
