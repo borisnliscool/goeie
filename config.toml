@@ -1,4 +1,7 @@
-[website]
+[ports]
+http = 8080
+https = 8443
+
+[[redirect]]
 hosts = ["www.boris.foo"]
 target = "https://boris.foo"
-redirect_type = "Temporary"
