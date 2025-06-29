@@ -13,7 +13,7 @@ use tokio::sync::{oneshot, Mutex};
 
 fn get_acme_account(tls_config: TLSConfiguration) -> Result<Account, String> {
     // todo: configurable
-    let url = DirectoryUrl::LetsEncryptStaging;
+    let url = DirectoryUrl::LetsEncrypt;
     let dir = Directory::from_url(url).map_err(|e| e.to_string())?;
 
     let contact = vec![format!("mailto:{}", tls_config.email)];
