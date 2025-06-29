@@ -6,6 +6,7 @@ COPY src src
 COPY Cargo.toml Cargo.toml
 COPY Cargo.lock Cargo.lock
 
+RUN apt-get update && apt-get install -y pkg-config libssl-dev
 RUN cargo build --release
 
 
