@@ -5,3 +5,4 @@ https = 8443
 [[redirect]]
 hosts = ["www.boris.foo"]
 target = "https://boris.foo"
+path = "Keep"

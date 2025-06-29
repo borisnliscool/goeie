@@ -7,10 +7,17 @@ pub enum RedirectType {
 }
 
 #[derive(Debug, Deserialize, Clone)]
+pub enum PathOption {
+    Keep,
+    Remove,
+}
+
+#[derive(Debug, Deserialize, Clone)]
 pub struct RedirectConfiguration {
     pub hosts: Vec<String>,
     pub target: String,
     pub redirect_type: Option<RedirectType>,
+    pub path: Option<PathOption>,
 }
 
 #[derive(Debug, Deserialize, Clone)]

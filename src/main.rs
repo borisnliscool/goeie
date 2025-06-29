@@ -1,8 +1,8 @@
 mod config;
 mod models;
 
-use crate::models::RedirectType;
-use axum::http::HeaderMap;
+use crate::models::{PathOption, RedirectType};
+use axum::http::{HeaderMap, Uri};
 use axum::response::{IntoResponse, Redirect, Response};
 use axum::routing::get;
 use axum::Router;
@@ -10,7 +10,7 @@ use tokio::net::TcpListener;
 use tower_http::cors::CorsLayer;
 use tower_http::trace::TraceLayer;
 
-async fn handle_request(headers: HeaderMap) -> impl IntoResponse {
+async fn handle_request(headers: HeaderMap, uri: Uri) -> impl IntoResponse {
     let host = headers.get("host").and_then(|h| h.to_str().ok());
     if host.is_none() {
         return Response::builder()
@@ -28,14 +28,19 @@ async fn handle_request(headers: HeaderMap) -> impl IntoResponse {
     }
 
     let config = host_config.unwrap();
-    tracing::info!("Redirecting {} to {}", host.unwrap(), config.target);
+    let target: String = match config.path.unwrap_or(PathOption::Remove) {
+        PathOption::Keep => format!("{}{}{}", config.target.trim_end_matches("/"), uri.path(), uri.query().unwrap_or("")),
+        PathOption::Remove => config.target,
+    };
+
+    tracing::info!("Redirecting {} to {}", host.unwrap(), target);
 
     let mut headers = HeaderMap::new();
     headers.insert("X-Powered-By", "Goeie".parse().unwrap());
 
     let redirect = match config.redirect_type.unwrap_or(RedirectType::Temporary) {
-        RedirectType::Temporary => Redirect::temporary(&config.target),
-        RedirectType::Permanent => Redirect::permanent(&config.target),
+        RedirectType::Temporary => Redirect::temporary(&target),
+        RedirectType::Permanent => Redirect::permanent(&target),
     };
 
     (headers, redirect).into_response()

@@ -7,9 +7,16 @@ location. Additionally, create a `config.toml` file that configures your redirec
 
 ```toml
 [[redirect]]
-hosts = ["www.boris.foo"]    # All hosts that redirect to this target
-target = "https://boris.foo" # Where to redirect to
-redirect_type = "Temporary"  # Optional; 'Temporary' or 'Permanent', defaults to 'Temporary'
+# All hosts that redirect to this target
+hosts = ["www.boris.foo"]
+# Where to redirect to
+target = "https://boris.foo"
+# Status to return to the client
+# Optional; 'Temporary' or 'Permanent', defaults to 'Temporary'
+redirect_type = "Temporary"
+# Persist path and query parameters?
+# Optional; 'Keep' or 'Remove', defaults to 'Remove'
+path = "Keep"
 
 # You can create as many redirects as you want!
 [[redirect]]

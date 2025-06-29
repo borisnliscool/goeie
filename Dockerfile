@@ -11,7 +11,7 @@ RUN cargo build --release
 
 FROM rust:1.86.0-slim AS runner
 
-WORKDIR /usr/src/goeie
+WORKDIR /
 COPY --from=builder /usr/src/goeie-server/target/release/goeie-server goeie-server
 
 LABEL org.opencontainers.image.source=https://github.com/borisnliscool/goeie

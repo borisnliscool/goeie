@@ -1,6 +1,7 @@
 use crate::models::{Config, RedirectConfiguration};
 use lazy_static::lazy_static;
-use std::fs;
+use std::{env, fs};
+use std::path::Path;
 use std::sync::{Arc, Mutex};
 use std::time::{Duration, Instant};
 
@@ -11,7 +12,12 @@ lazy_static! {
 }
 
 fn get_config_file() -> Result<String, String> {
-    fs::read_to_string("config.toml").map_err(|e| e.to_string())
+    fs::read_to_string(
+        Path::join(
+            &env::current_dir().unwrap(),
+            Path::new("config.toml")
+        )
+    ).map_err(|e| e.to_string())
 }
 
 fn read_config_file() -> Result<Config, String> {
