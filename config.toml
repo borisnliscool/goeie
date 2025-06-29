@@ -2,6 +2,10 @@
 http = 8080
 https = 8443
 
+[tls]
+email = "noreply@boris.foo"
+certs_path = "data/"
+
 [[redirect]]
 hosts = ["www.boris.foo"]
 target = "https://boris.foo"

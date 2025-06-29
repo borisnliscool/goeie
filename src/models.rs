@@ -29,7 +29,14 @@ impl Default for PortConfiguration {
 }
 
 #[derive(Debug, Deserialize, Clone)]
+pub struct TLSConfiguration {
+    pub email: String,
+    pub certs_path: String,
+}
+
+#[derive(Debug, Deserialize, Clone)]
 pub struct Config {
-    pub ports: Option<PortConfiguration>,
     pub redirect: Vec<RedirectConfiguration>,
+    pub ports: Option<PortConfiguration>,
+    pub tls: Option<TLSConfiguration>,
 }

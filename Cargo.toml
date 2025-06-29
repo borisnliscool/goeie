@@ -4,7 +4,8 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
-axum = { version = "0.8.4", features = ["ws"] }
+axum = { version = "0.8.4" }
+axum-server = { version = "0.7.2", features = ["tls-rustls"] }
 tokio = { version = "1.40.0", features = ["full"] }
 tracing-subscriber = "0.3.18"
 tracing = "0.1.40"
@@ -12,6 +13,7 @@ tower-http = { version = "0.6.6", features = ["trace", "cors"] }
 toml = "0.8.23"
 serde = { version = "1.0.219", features = ["derive"] }
 lazy_static = "1.5.0"
+acme-micro = "0.13.0"
 
 [[bin]]
 path = "src/main.rs"
