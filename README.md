@@ -26,10 +26,3 @@ target = "https://example.com"
 
 The `config.toml` file is cached in memory for 5 minutes. This means that if you change the file, it might take a few
 minutes to propagate. Alternatively, you can restart the server to pick up the new config instantly.
-
-<br/>
-
-#### Planned features:
-
-- automatic ssl certs for new sites
-- wildcard redirects (e.g., *.boris.foo)
